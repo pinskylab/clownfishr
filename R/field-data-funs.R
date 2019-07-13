@@ -151,3 +151,56 @@ sample_latlon <- function(sample_ids){
   return(coord)
 
 }
+
+
+#' Pull in the location of anemones
+#'
+#' @param anem_ids
+#'
+#' @return A tibble/data frame of locations for anem_ids
+#' @export
+#'
+#' @examples
+#' location <- anem_latlon(c(2554, 0815))
+anem_latlon <- function(anem_ids){
+  # find the anem_table_id for the sample
+  anem <- anem_dive() %>%
+    dplyr::select(anem_id, anem_obs, anem_obs_time, date, gps) %>%
+    dplyr::filter(anem_id %in% anem_ids) %>%
+    # identify time zone as Asia
+    dplyr::mutate(anem_obs_time = lubridate::force_tz(lubridate::ymd_hms(str_c(date, anem_obs_time, sep = " ")), tzone = "Asia/Manila"),
+           # convert to UTC
+           anem_obs_time = lubridate::with_tz(anem_obs_time, tzone = "UTC"),
+           gpx_date = lubridate::date(anem_obs_time),
+           gpx_hour = lubridate::hour(anem_obs_time),
+           minute = lubridate::minute(anem_obs_time))
+
+
+  if(!exists("leyte"))
+    stop("Error: db connection called 'leyte' does not exist, see Michelle for help")
+  gpx <- leyte %>%
+    dplyr::tbl("GPX") %>%
+    dplyr::select(lat, lon, time, unit) %>%
+    dplyr::collect() %>%
+    dplyr::separate(time, into = c("gpx_date", "gps_time"), sep = " ") %>%
+    dplyr::mutate(gpx_date = lubridate::date(gpx_date)) %>%
+    dplyr::filter(gpx_date %in% anem$gpx_date) %>%
+    dplyr::separate(gps_time, into = c("gpx_hour", "minute", "second"), sep = ":") %>%
+    dplyr::filter(as.numeric(gpx_hour) %in% anem$gpx_hour & as.numeric(minute) %in% anem$minute) %>%
+    dplyr::mutate(gpx_hour = as.numeric(gpx_hour),
+           minute = as.numeric(minute))
+
+  # find matches for times to assign lat long - there are more than one set of seconds (sec.y) that match
+  anem <- dplyr::left_join(anem, gpx, by = c("gps" = "unit",  "gpx_date","gpx_hour", "minute")) %>%
+    dplyr::mutate(lat = as.numeric(lat),
+           lon = as.numeric(lon)) # need to make decimal 5 digits - why? because that is all the gps can hold
+
+  # calculate a mean lat lon for each anem observation
+  coord <- anem %>%
+    dplyr::group_by(anem_id, anem_obs) %>%
+    dplyr::summarise(lat = mean(lat, na.rm = TRUE),
+              lon = mean(lon, na.rm = T))
+
+  return(coord)
+
+}
