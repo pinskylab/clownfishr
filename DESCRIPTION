@@ -2,12 +2,12 @@ Package: clownfishr
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Michelle",
+           family = "Stuart",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
+           email = "michelle.stuart@rutgers.edu",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Access and manipulate clownfish data from the Pinsky Lab database.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
