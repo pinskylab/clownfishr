@@ -14,3 +14,5 @@ LazyData: true
 Imports: 
     dplyr
 RoxygenNote: 6.1.1
+Suggests: 
+    testthat
