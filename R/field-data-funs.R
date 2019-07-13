@@ -81,3 +81,21 @@ fish_anem_dive <- function(){
   return(fish)
 
 }
+
+#' Pull all of the dives from a specific date range
+#'
+#' @param begin_date A character date
+#' @param end_date A character date
+#'
+#' @return A table of dives
+#' @export
+#'
+#' @examples
+#' dives <- date_range_dive("2017-01-01", "2017-12-30")
+date_range_dive <- function(begin_date, end_date){
+  dive <- get_dive() %>%
+    filter(date > begin_date & date < end_date)
+
+  return(dive)
+}
+
