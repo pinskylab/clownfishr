@@ -18,3 +18,24 @@ get_fish <- function(){
   return(fish)
 }
 
+#' Pull the anemone table from the leyte database
+#'
+#' This function pulls in the entire anemone table which can be filtered for a more specific query.
+#'
+#' @return A tibble/data frame
+#' @export
+#'
+#' @examples
+#' anem <- get_anem() %>%
+#' filter(anem_obs == 12)
+get_anem <- function(){
+  if(!exists("leyte"))
+    stop("Error: db connection called 'leyte' does not exist, see Michelle for help")
+  anem <- leyte %>%
+    dplyr::tbl("anemones") %>%
+    dplyr::collect()
+
+  return(anem)
+}
+
+
