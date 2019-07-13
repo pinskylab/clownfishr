@@ -10,7 +10,7 @@
 #' filter(sample_id == "APCL18_201")
 get_fish <- function(){
   if(!exists("leyte"))
-    stop("ErrorZ: db connection called 'leyte' does not exist, see Michelle for help")
+    stop("Error: db connection called 'leyte' does not exist, see Michelle for help")
   fish <- leyte %>%
     dplyr::tbl("clownfish") %>%
     dplyr::collect()
