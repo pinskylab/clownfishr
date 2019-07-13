@@ -204,3 +204,26 @@ anem_latlon <- function(anem_ids){
   return(coord)
 
 }
+
+#' Pull in anemones and the diveinfo that goes with them
+#'
+#' @param anems_ids
+#'
+#' @return A tibble/data frame
+#' @export
+#'
+#' @examples
+#' anem_info <- anem_dive(2001, 0134)
+anem_dive <- function(anems_ids){
+
+  anem <- get_anem() %>%
+    dplyr::filter(anem_id %in% anem_ids)
+
+  dive <- get_dive() %>%
+    dplyr::filter(dive_table_id %in% anem$dive_table_id)
+
+  anem <- dplyr::left_join(anem, dive, by = "dive_table_id")
+
+  return(anem)
+}
+
