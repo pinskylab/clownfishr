@@ -15,7 +15,11 @@ Imports:
     dplyr,
     lubridate,
     stringr,
-    reshape2
+    reshape2,
+    tibble,
+    DBI,
+    RMySQL,
+    rstudioapi
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.1.0)
