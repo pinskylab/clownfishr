@@ -7,10 +7,11 @@
 #'
 #' @examples
 read_db <- function(db_name){
+  rstudioapi::isAvailable(
   con <- DBI::dbConnect(RMySQL::MySQL(),
                         dbname = db_name,
                         host = "amphiprion.deenr.rutgers.edu",
                         username = rstudioapi::askForPassword("Username"),
-                        password = rstudioapi::askForPassword("Password"))
+                        password = rstudioapi::askForPassword("Password")))
   return(con)
 }
