@@ -70,8 +70,8 @@ get_dive <- function(){
 #' filter(sample_id %in% fish_of_interest)
 fish_anem_dive <- function(){
   fish <- get_fish() %>%
-    dplyr::left_join(get_anem, by = "anem_table_id") %>%
-    dplyr::left_join(get_dive, by = "dive_table_id")
+    dplyr::left_join(get_anem(), by = "anem_table_id") %>%
+    dplyr::left_join(get_dive(), by = "dive_table_id")
 
   return(fish)
 
