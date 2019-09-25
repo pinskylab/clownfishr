@@ -1,3 +1,4 @@
+
 #' Maps the well locations of samples from the database
 #'
 #' @param table_name
@@ -657,13 +658,13 @@ lig_from_samp <- function(sample_ids){
 
   dig <- lab %>%
     tbl("digest") %>%
-    filter(extraction_id %in% extr$extraction_id) %>%
+    filter(extraction_id %in% !!extr$extraction_id) %>%
     select(extraction_id, digest_id) %>%
     collect()
 
   lig <- lab %>%
     tbl("ligation") %>%
-    filter(digest_id %in% dig$digest_id) %>%
+    filter(digest_id %in% !!dig$digest_id) %>%
     select(ligation_id, digest_id) %>%
     collect()
 
