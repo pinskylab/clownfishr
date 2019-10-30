@@ -652,7 +652,7 @@ lig_from_samp <- function(sample_ids){
 
   extr <- lab %>%
     tbl("extraction") %>%
-    filter(sample_id %in% sample_ids) %>%
+    filter(sample_id %in% !!sample_ids) %>%
     select(sample_id, extraction_id) %>%
     collect()
 
