@@ -38,3 +38,6 @@ leyte <- read_db("Leyte")
 fish <- get_fish() %>% 
   filter(sample_id %in% fish_of_interest)
 ```
+
+## Leyte BCO-DMO Data
+Pinsky, M., Stuart, M. (2023) Temperature loggers (HOBO) placed in two locations off the coast of the West coast of Leyte, the Philippines , 2012-2019. Biological and Chemical Oceanography Data Management Office (BCO-DMO). (Version 2) Version Date 2023-03-06. doi:10.26008/1912/bco-dmo.862415.2
